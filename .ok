@@ -1,0 +1,2 @@
+cargo fmt && cargo test
+cargo clippy -- -W clippy::pedantic && cargo fmt
