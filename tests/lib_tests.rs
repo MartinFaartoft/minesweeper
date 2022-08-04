@@ -53,6 +53,14 @@ fn three_by_three_board_all_bombs_center_tile_should_have_eight_neighbors() {
     assert_eq!(game.board[4].bomb_neighbors, 8);
 }
 
+#[test]
+fn should_auto_reveal_neighours_of_tiles_with_no_bomb_neighbors() {
+    let state = Game::new(4, 1, &hash_set![3]);
+    let state = to_in_progress(state).reveal(0, 0);
+    let tile = &to_finished_game(state).board[2];
+    assert!(tile.is_revealed)
+}
+
 fn to_in_progress(s: GameState) -> Game {
     match s {
         GameState::InProgress(g) => g,
@@ -60,7 +68,7 @@ fn to_in_progress(s: GameState) -> Game {
     }
 }
 
-fn _to_finished_game(s: GameState) -> FinishedGame {
+fn to_finished_game(s: GameState) -> FinishedGame {
     match s {
         GameState::Won(g) => g,
         GameState::Lost(g) => g,
