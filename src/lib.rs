@@ -53,14 +53,17 @@ impl Game {
         x + self.width * y
     }
 
-    pub fn reveal(mut self, x: Dim, y: Dim) -> GameState {
+    pub fn reveal(self, x: Dim, y: Dim) -> GameState {
         let index = self.to_index(x, y);
+        self.reveal_index(index)
+    }
 
-        let mut tile = &mut self.board[index];
+    pub fn reveal_index(mut self, ix: usize) -> GameState {
+        let mut tile = &mut self.board[ix];
         tile.is_revealed = true;
 
         if !tile.is_bomb {
-            self.auto_reveal_safe_neighbours(index);
+            self.auto_reveal_safe_neighbours(ix);
         }
 
         Game::calculate_state(self)
